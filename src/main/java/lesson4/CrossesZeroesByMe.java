@@ -93,21 +93,71 @@ public class CrossesZeroesByMe {
 
 
 
-    public static boolean checkWin(char dot){
+    public static boolean checkWin(char dot) {
+        //Условия победы диагоналей
+        int countX = 0;
+        int countO = 0;
+//        for (int i = 0; i < map.length; i++) {
+//            for (int j = 0; j < map[i].length; j++) {
+//                if (i + j == map.length - 1) {
+//                    if (map[i][j] != dot) {
+//                        countX--;
+//                        countO--;
+//                    }
+//                    if (map[i][j] == dot) {
+//                        countX++;
+//                        countO++;
+//                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+//                            return true;
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
+//            countX = 0;
+//            countO = 0;
+//            for (int i = 0; i < map.length; i++) {
+//                for (int j = 0; j < map[i].length; j++) {
+//                    if (i == j) {
+//                        if (map[i][j] != dot) {
+//                            countX--;
+//                            countO--;
+//                        }
+//                        if (map[i][j] == dot) {
+//                            countX++;
+//                            countO++;
+//                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO)
+//                                return true;
+//                        }
+//                    }
+//                }
+//            }
+//            //Условия победы строк
+//            countX = 0;
+//            countO = 0;
+            int step = 0;
 
         for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (i == j || i + j == map.length - 1){
-                    if(map[i][j] == dot && DOTS_TO_WIN == countX || map[i][j] == dot && DOTS_TO_WIN == countO) {
-                        return true;
+                for (int j = 0; j < step; j++) {
+                    if(map[i][j] == dot) {
+                        countX++;
+                        countO++;
+                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                            return true;
+                        }
                     }
+
                 }
-            }
+
+
+
+
+
         }
 
+            return false;
 
-
-        return false;
     }
 
     public static void play(){
