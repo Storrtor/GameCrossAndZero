@@ -10,8 +10,7 @@ public class CrossesZeroesByMe {
     public static int size;
     public static int dots_to_win;
 
-    public static int countX = 0;
-    public static int countO = 0;
+    public static int count = 0;
 
     public static final char DOT_X = 'X';
     public static final char DOT_O = 'O';
@@ -93,38 +92,32 @@ public class CrossesZeroesByMe {
 
     public static boolean checkWin(char dot, int dots_to_win) {
         //Условия победы диагоналей
-        int countX = 0;
-        int countO = 0;
+        int count = 0;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 if (i + j == map.length - 1) {
                     if (map[i][j] != dot) {
-                        countX--;
-                        countO--;
+                        count--;
                     }
                     if (map[i][j] == dot) {
-                        countX++;
-                        countO++;
-                        if (dots_to_win == countX || dots_to_win == countO) {
+                        count++;
+                        if (dots_to_win == count) {
                             return true;
                         }
                     }
                 }
             }
         }
-            countX = 0;
-            countO = 0;
+            count = 0;
             for (int i = 0; i < map.length; i++) {
                 for (int j = 0; j < map[i].length; j++) {
                     if (i == j) {
                         if (map[i][j] != dot) {
-                            countX--;
-                            countO--;
+                            count--;
                         }
                         if (map[i][j] == dot) {
-                            countX++;
-                            countO++;
-                            if (dots_to_win == countX || dots_to_win == countO)
+                            count++;
+                            if (dots_to_win == count)
                                 return true;
                         }
                     }
@@ -132,22 +125,18 @@ public class CrossesZeroesByMe {
             }
 
             //Условия победы строк
-        countX = 0;
-        countO = 0;
+        count = 0;
         int step = 0;
         for (int i = 0; i < map.length; i++) {
             if (i == step) {
-                countX = 0;
-                countO = 0;
+                count = 0;
                 for (int j = 0; j < map[i].length; j++) {
                         if (map[i][j] != dot) {
-                            countX--;
-                            countO--;
+                            count--;
                         }
                         if (map[i][j] == dot) {
-                            countX++;
-                            countO++;
-                            if (dots_to_win == countX || dots_to_win == countO) {
+                            count++;
+                            if (dots_to_win == count) {
                                 return true;
                             }
                         }
@@ -157,8 +146,7 @@ public class CrossesZeroesByMe {
         }
 
         //Условие победы столбцов
-        countX = 0;
-        countO = 0;
+        count = 0;
         step = 0;
         do {
             for (int i = 0; i < map.length; i++) {
@@ -166,13 +154,11 @@ public class CrossesZeroesByMe {
 
                     if(j == step) {
                         if (map[i][j] != dot) {
-                            countX--;
-                            countO--;
+                            count--;
                         }
                         if (map[i][j] == dot) {
-                            countX++;
-                            countO++;
-                            if (dots_to_win == countX || dots_to_win == countO) {
+                            count++;
+                            if (dots_to_win == count) {
                                 return true;
                             }
                         }
@@ -180,8 +166,7 @@ public class CrossesZeroesByMe {
                 }
 
             }
-            countX = 0;
-            countO = 0;
+            count = 0;
             step++;
         } while (step < map.length);
 
@@ -193,16 +178,14 @@ public class CrossesZeroesByMe {
          * Я не исключаю, что можно найти закономерность, но у меня не получилось((
          * Поэтому DOTS_TO_WIN = 4 будет работать только на поле 5 ((
          */
-        countX = 0;
-        countO = 0;
+        count = 0;
         step = 1;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 if (map[i][j] == dot) {
                     if (i + j == step) {
-                        countX++;
-                        countO++;
-                        if (dots_to_win == countX || dots_to_win == countO) {
+                        count++;
+                        if ( dots_to_win == count) {
                             return true;
                         }
                         step = step + 2;
@@ -211,31 +194,26 @@ public class CrossesZeroesByMe {
             }
         }
 
-        countX = 0;
-        countO = 0;
+        count = 0;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 if (i + j == 3) {
                     if (map[i][j] != dot) {
-                        countX--;
-                        countO--;
+                        count--;
                     }
                     if (map[i][j] == dot) {
-                        countX++;
-                        countO++;
-                        if (dots_to_win == countX || dots_to_win == countO) {
+                        count++;
+                        if ( dots_to_win == count) {
                             return true;
                         }
                     }
                     if (i + j == 5) {
                         if (map[i][j] != dot) {
-                            countX--;
-                            countO--;
+                            count--;
                         }
                         if (map[i][j] == dot){
-                            countX++;
-                            countO++;
-                            if (dots_to_win == countX || dots_to_win == countO) {
+                            count++;
+                            if (dots_to_win == count) {
                                 return true;
                             }
                         }
