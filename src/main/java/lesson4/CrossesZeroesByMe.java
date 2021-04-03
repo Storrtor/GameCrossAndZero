@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class CrossesZeroesByMe {
 
     public static char[][] map;
-    public static final int SIZE = 3;
-    public static final int DOTS_TO_WIN = 3;
+    public static final int SIZE = 5;
+    public static final int DOTS_TO_WIN = 4;
 
     public static int countX = 0;
     public static int countO = 0;
@@ -95,74 +95,51 @@ public class CrossesZeroesByMe {
         //Условия победы диагоналей
         int countX = 0;
         int countO = 0;
-//        for (int i = 0; i < map.length; i++) {
-//            for (int j = 0; j < map[i].length; j++) {
-//                if (i + j == map.length - 1) {
-//                    if (map[i][j] != dot) {
-//                        countX--;
-//                        countO--;
-//                    }
-//                    if (map[i][j] == dot) {
-//                        countX++;
-//                        countO++;
-//                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
-//                            return true;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//            countX = 0;
-//            countO = 0;
-//            for (int i = 0; i < map.length; i++) {
-//                for (int j = 0; j < map[i].length; j++) {
-//                    if (i == j) {
-//                        if (map[i][j] != dot) {
-//                            countX--;
-//                            countO--;
-//                        }
-//                        if (map[i][j] == dot) {
-//                            countX++;
-//                            countO++;
-//                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO)
-//                                return true;
-//                        }
-//                    }
-//                }
-//            }
-//
-//            //Условия победы строк
-//        countX = 0;
-//        countO = 0;
-        int step = 0;
-//        for (int i = 0; i < map.length; i++) {
-//            if (i == step) {
-//                countX = 0;
-//                countO = 0;
-//                for (int j = 0; j < map[i].length; j++) {
-//                        if (map[i][j] != dot) {
-//                            countX--;
-//                            countO--;
-//                        }
-//                        if (map[i][j] == dot) {
-//                            countX++;
-//                            countO++;
-//                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
-//                                return true;
-//                            }
-//                        }
-//                    }
-//                step++;
-//            }
-//        }
-
-        //Условие победы столбцов
-        countX = 0;
-        countO = 0;
-        step = 0;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                if (j == step) {
+                if (i + j == map.length - 1) {
+                    if (map[i][j] != dot) {
+                        countX--;
+                        countO--;
+                    }
+                    if (map[i][j] == dot) {
+                        countX++;
+                        countO++;
+                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+            countX = 0;
+            countO = 0;
+            for (int i = 0; i < map.length; i++) {
+                for (int j = 0; j < map[i].length; j++) {
+                    if (i == j) {
+                        if (map[i][j] != dot) {
+                            countX--;
+                            countO--;
+                        }
+                        if (map[i][j] == dot) {
+                            countX++;
+                            countO++;
+                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO)
+                                return true;
+                        }
+                    }
+                }
+            }
+
+            //Условия победы строк
+        countX = 0;
+        countO = 0;
+        int step = 0;
+        for (int i = 0; i < map.length; i++) {
+            if (i == step) {
+                countX = 0;
+                countO = 0;
+                for (int j = 0; j < map[i].length; j++) {
                         if (map[i][j] != dot) {
                             countX--;
                             countO--;
@@ -174,70 +151,99 @@ public class CrossesZeroesByMe {
                                 return true;
                             }
                         }
-                    step++;
+                    }
+                step++;
+            }
+        }
+
+        //Условие победы столбцов
+        countX = 0;
+        countO = 0;
+        step = 0;
+        do {
+            for (int i = 0; i < map.length; i++) {
+                for (int j = 0; j < map.length; j++) {
+
+                    if(j == step) {
+                        if (map[i][j] != dot) {
+                            countX--;
+                            countO--;
+                        }
+                        if (map[i][j] == dot) {
+                            countX++;
+                            countO++;
+                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+            }
+            countX = 0;
+            countO = 0;
+            step++;
+        } while (step < map.length);
+
+
+        //Условие победы побочных диагоналей при DOTS_TO_WIN = 4 на поле 5;
+        /**
+         * Я пыталась написать в общем виде, чтобы на любом размере поля больше 5 при параметре DOTS_TO_WIN = 4
+         * все возможные диагонали давали победу при 4х точках, но условие очень сложное получается.
+         * Я не исключаю, что можно найти закономерность, но у меня не получилось((
+         * Поэтому DOTS_TO_WIN = 4 будет работать только на поле 5 ((
+         */
+        countX = 0;
+        countO = 0;
+        step = 1;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] == dot) {
+                    if (i + j == step) {
+                        countX++;
+                        countO++;
+                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                            return true;
+                        }
+                        step = step + 2;
+                    }
                 }
             }
-
         }
-//
-//        //Условие победы побочных диагоналей при DOTS_TO_WIN = 4 на поле 5;
-//        /**
-//         * Я пыталась написать в общем виде, чтобы на любом размере поля больше 5 при параметре DOTS_TO_WIN = 4
-//         * все возможные диагонали давали победу при 4х точках, но условие очень сложное получается.
-//         * Я не исключаю, что можно найти закономерность, но у меня не получилось((
-//         * Поэтому DOTS_TO_WIN = 4 будет работать только на поле 5 ((
-//         */
-//        countX = 0;
-//        countO = 0;
-//        step = 1;
-//        for (int i = 0; i < map.length; i++) {
-//            for (int j = 0; j < map[i].length; j++) {
-//                if (map[i][j] == dot) {
-//                    if (i + j == step) {
-//                        countX++;
-//                        countO++;
-//                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
-//                            return true;
-//                        }
-//                        step = step + 2;
-//                    }
-//                }
-//            }
-//        }
-//
-//        countX = 0;
-//        countO = 0;
-//        for (int i = 0; i < map.length; i++) {
-//            for (int j = 0; j < map[i].length; j++) {
-//                if (i + j == 3) {
-//                    if (map[i][j] != dot) {
-//                        countX--;
-//                        countO--;
-//                    }
-//                    if (map[i][j] == dot) {
-//                        countX++;
-//                        countO++;
-//                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
-//                            return true;
-//                        }
-//                    }
-//                    if (i + j == 5) {
-//                        if (map[i][j] != dot) {
-//                            countX--;
-//                            countO--;
-//                        }
-//                        if (map[i][j] == dot){
-//                            countX++;
-//                            countO++;
-//                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
-//                                return true;
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
+
+        countX = 0;
+        countO = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (i + j == 3) {
+                    if (map[i][j] != dot) {
+                        countX--;
+                        countO--;
+                    }
+                    if (map[i][j] == dot) {
+                        countX++;
+                        countO++;
+                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                            return true;
+                        }
+                    }
+                    if (i + j == 5) {
+                        if (map[i][j] != dot) {
+                            countX--;
+                            countO--;
+                        }
+                        if (map[i][j] == dot){
+                            countX++;
+                            countO++;
+                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                                return true;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
 
 
         return false;
