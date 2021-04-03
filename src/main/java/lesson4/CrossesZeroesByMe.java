@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class CrossesZeroesByMe {
 
     public static char[][] map;
-    public static final int SIZE = 5;
-    public static final int DOTS_TO_WIN = 4;
+    public static int size;
+    public static int dots_to_win;
 
     public static int countX = 0;
     public static int countO = 0;
@@ -20,8 +20,8 @@ public class CrossesZeroesByMe {
     public static final Scanner scanner = new Scanner(System.in);
     public static final Random random = new Random();
 
-    public static void initMap() {
-        map = new char[SIZE][SIZE];
+    public static void initMap(int size) {
+        map = new char[size][size];
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 map[i][j] = DOT_EMPTY;
@@ -46,19 +46,19 @@ public class CrossesZeroesByMe {
         }
     }
 
-    public static void humanTurn() {
+    public static void humanTurn(int size) {
         int x, y;
         do {
             System.out.println("Введите координаты хода, где Х - (cтрока) У - (столбец)");
             x = scanner.nextInt() - 1;
             y = scanner.nextInt() - 1;
-        } while (!isCellValid(x, y));
+        } while (!isCellValid(x, y, size));
         map[x][y] = DOT_X;
 
     }
 
-    public static boolean isCellValid(int x, int y) {
-        if (x < 0 || x >= SIZE || y < 0 && y >= SIZE) {
+    public static boolean isCellValid(int x, int y, int size) {
+        if (x < 0 || x >= size || y < 0 && y >= size) {
             return false;
         }
         if (map[x][y] == DOT_EMPTY) {
@@ -67,13 +67,13 @@ public class CrossesZeroesByMe {
         return false;
     }
 
-    public static void aiTurn() {
+    public static void aiTurn(int size) {
         System.out.println();
         int x, y;
         do {
-            x = random.nextInt(SIZE);
-            y = random.nextInt(SIZE);
-        } while (!isCellValid(x, y));
+            x = random.nextInt(size);
+            y = random.nextInt(size);
+        } while (!isCellValid(x, y, size));
         System.out.println("Компьютер походил в " + (x + 1) + " " + (y + 1));
         map[x][y] = DOT_O;
 
@@ -91,7 +91,7 @@ public class CrossesZeroesByMe {
     }
 
 
-    public static boolean checkWin(char dot) {
+    public static boolean checkWin(char dot, int dots_to_win) {
         //Условия победы диагоналей
         int countX = 0;
         int countO = 0;
@@ -105,7 +105,7 @@ public class CrossesZeroesByMe {
                     if (map[i][j] == dot) {
                         countX++;
                         countO++;
-                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                        if (dots_to_win == countX || dots_to_win == countO) {
                             return true;
                         }
                     }
@@ -124,7 +124,7 @@ public class CrossesZeroesByMe {
                         if (map[i][j] == dot) {
                             countX++;
                             countO++;
-                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO)
+                            if (dots_to_win == countX || dots_to_win == countO)
                                 return true;
                         }
                     }
@@ -147,7 +147,7 @@ public class CrossesZeroesByMe {
                         if (map[i][j] == dot) {
                             countX++;
                             countO++;
-                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                            if (dots_to_win == countX || dots_to_win == countO) {
                                 return true;
                             }
                         }
@@ -172,7 +172,7 @@ public class CrossesZeroesByMe {
                         if (map[i][j] == dot) {
                             countX++;
                             countO++;
-                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                            if (dots_to_win == countX || dots_to_win == countO) {
                                 return true;
                             }
                         }
@@ -202,7 +202,7 @@ public class CrossesZeroesByMe {
                     if (i + j == step) {
                         countX++;
                         countO++;
-                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                        if (dots_to_win == countX || dots_to_win == countO) {
                             return true;
                         }
                         step = step + 2;
@@ -223,7 +223,7 @@ public class CrossesZeroesByMe {
                     if (map[i][j] == dot) {
                         countX++;
                         countO++;
-                        if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                        if (dots_to_win == countX || dots_to_win == countO) {
                             return true;
                         }
                     }
@@ -235,7 +235,7 @@ public class CrossesZeroesByMe {
                         if (map[i][j] == dot){
                             countX++;
                             countO++;
-                            if (DOTS_TO_WIN == countX || DOTS_TO_WIN == countO) {
+                            if (dots_to_win == countX || dots_to_win == countO) {
                                 return true;
                             }
                         }
@@ -245,18 +245,17 @@ public class CrossesZeroesByMe {
             }
         }
 
-
         return false;
     }
 
 
-    public static void play() {
-        initMap();
+    public static void play(int size) {
+        initMap(size);
         printMap();
         while (true) {
-            humanTurn();
+            humanTurn(size);
             printMap();
-            if (checkWin(DOT_X)) {
+            if (checkWin(DOT_X, dots_to_win)) {
                 System.out.println("Победил человек");
                 break;
             }
@@ -264,9 +263,9 @@ public class CrossesZeroesByMe {
                 System.out.println("Ничья");
                 break;
             }
-            aiTurn();
+            aiTurn(size);
             printMap();
-            if (checkWin(DOT_O)) {
+            if (checkWin(DOT_O, dots_to_win)) {
                 System.out.println("Победил компуктер");
                 break;
             }
@@ -280,8 +279,16 @@ public class CrossesZeroesByMe {
 
     public static void main(String[] args) {
         System.out.println("Пора поиграть!");
-        play();
+        int d, d1;
+        do {
+            System.out.println("Введите размер поля на котором хотите поиграть от 1 до 10");
+            d = scanner.nextInt();
+        } while (d < 1 || d > 10);
+        do {
+            System.out.println("Введите количество заполненных клеточек, необходимых для победы от 3 до 10, но не больше выбранного вами размера поля");
+            dots_to_win = scanner.nextInt();
+        } while (dots_to_win < 1 || dots_to_win > d);
+        play(d);
+
     }
-
-
 }
